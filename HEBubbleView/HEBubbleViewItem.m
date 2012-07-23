@@ -9,35 +9,56 @@
 #import "HEBubbleViewItem.h"
 #import <QuartzCore/QuartzCore.h>
 
-#define GRADIENT_START_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:1.0]
-#define GRADIENT_END_COLOR [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.0]
-#define BORDER_COLOR [UIColor colorWithRed:0.0 green:0.0 blue:1.0 alpha:1.0]
+#define DEFAULT_BG_COLOR UIColorFromRGB(222,231,248,255)
+#define DEFAULT_SELECTED_BG_COLOR UIColorFromRGB(89,137,236,255)
 
+#define DEFAULT_TEXT_COLOR UIColorFromRGB(0,0,0,255)
+#define DEFAULT_SELECTED_TEXT_COLOR UIColorFromRGB(255,255,255,255)
+
+#define DEFAUL_BORDER_COLOR UIColorFromRGB(109,149,224,255)
+#define DEFAULT_SELECTED_BORDER_COLOR UIColorFromRGB(109,149,224,255)
+
+#define ITEM_TEXTLABELPADDING_LEFT_AND_RIGHT 10.0;
+
+UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSInteger alpha) {
+    return [UIColor colorWithRed:((float)red)/255.0
+                           green:((float)green)/255.0
+                            blue:((float)blue)/255.0
+                           alpha:((float)alpha)/255.0];
+}
+
+@interface HEBubbleViewItem (private)
+
+-(void)prepareItemForReuse;
+
+@end
 
 @implementation HEBubbleViewItem
 
 @synthesize delegate;
 
 @synthesize _selected = isSelected;
-@synthesize _highlighted = isHighlighted;
+//@synthesize _highlighted = isHighlighted;
 @synthesize reuseIdentifier;
 @synthesize textLabel;
 @synthesize index;
+@synthesize bubbleTextLabelPadding;
+
 -(void)dealloc
 {
     [reuseIdentifier release];
     reuseIdentifier = nil;
+    delegate = nil;
     
     [super dealloc];
 }
 
+/*
 -(BOOL)isItemVisibleInFrame:(CGRect)frame
 {
-    
-    //NSLog(@"SELF: %@ SUPER: %@",NSStringFromCGRect(self.frame),NSStringFromCGRect(frame));
-    
     return (BOOL)CGRectIntersectsRect(frame, self.frame);
 }
+*/
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -77,7 +98,7 @@
             [delegate selectedBubbleItem:self];
         }
         
-        [self setSelected:YES animated:YES];
+        
         
         return;
     }
@@ -102,13 +123,20 @@
     self = [super initWithFrame:CGRectZero];
     if (self) {
         
+        NSLog(@"HEBUbbleView: called initWithReuseIdentifier and set reuseIdentifier to %@",reuseIdentifierIN);
+        
         reuseIdentifier = [reuseIdentifierIN retain];
         
         textLabel = [[UILabel alloc] initWithFrame:self.bounds];
         
-        self.textLabel.backgroundColor = [UIColor whiteColor];
+        self.textLabel.backgroundColor = [UIColor clearColor]; 
+        
+        self.backgroundColor = DEFAULT_BG_COLOR;
+        
         [self addSubview:textLabel];
         [textLabel release];
+        
+        self.bubbleTextLabelPadding = ITEM_TEXTLABELPADDING_LEFT_AND_RIGHT;
 
         
     }
@@ -117,6 +145,7 @@
 
 -(id)initWithFrame:(CGRect)frame
 {
+    
     return [self initWithReuseIdentifier:nil];
 }
 
@@ -127,12 +156,15 @@
 
 -(void)layoutSubviews
 {
+
+    self.textLabel.frame = CGRectMake(bubbleTextLabelPadding, self.bounds.origin.y, self.bounds.size.width-2*bubbleTextLabelPadding, self.bounds.size.height);
+
+    NSLog(@"Layout subviews");
     
-    
-    NSLog(@"laying out subvuews");
-    
-    self.textLabel.frame = self.bounds;
-    
+    self.layer.masksToBounds = YES;
+    self.layer.cornerRadius = self.bounds.size.height/2;
+    self.layer.borderWidth = 1.0;
+    self.layer.borderColor = [DEFAUL_BORDER_COLOR CGColor];
     
     
     [super layoutSubviews];
@@ -142,28 +174,24 @@
 {
     if (selected) {
         
-        self.textLabel.backgroundColor = [UIColor blueColor];
-        self.textLabel.textColor = [UIColor whiteColor];
+        self.backgroundColor = DEFAULT_SELECTED_BG_COLOR;
+        self.textLabel.textColor = DEFAULT_SELECTED_TEXT_COLOR;
         
     }else {
-        self.textLabel.backgroundColor = [UIColor whiteColor];
-        self.textLabel.textColor = [UIColor blackColor];
+        self.backgroundColor = DEFAULT_BG_COLOR;
+        self.textLabel.textColor = DEFAULT_TEXT_COLOR;
     }
     
     isSelected = selected;
 }
 
--(void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+-(void)prepareItemForReuse
 {
-    
-    if (highlighted) {
-
-        
-    }else {
-        
-    }
-    
-    isHighlighted = highlighted;
+    self.textLabel.text = nil;
+    [self setSelected:NO animated:NO];
+    self.index = 0;
+    self.delegate = nil;
+    isSelected = NO;
     
 }
 

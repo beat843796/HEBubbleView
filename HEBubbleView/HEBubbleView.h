@@ -43,6 +43,9 @@
     
     UIMenuController *menu;
     
+    
+   
+    HEBubbleViewItem *activeBubble;
 }
 
 @property (nonatomic, assign) id<HEBubbleViewDelegate> bubbleDelegate;
@@ -51,7 +54,7 @@
 @property (nonatomic, assign) CGFloat itemPadding;
 @property (nonatomic, assign) CGFloat itemHeight;
 
-
+@property (nonatomic, assign) HEBubbleViewItem *activeBubble;
 @property (nonatomic, readonly) NSMutableArray *reuseQueue;
 
 -(HEBubbleViewItem *)dequeueItemUsingReuseIdentifier:(NSString *)reuseIdentifier;

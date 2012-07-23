@@ -143,7 +143,7 @@
 -(void)bubbleView:(HEBubbleView *)bubbleView didSelectBubbleItemAtIndex:(NSInteger)index
 {
    
-    
+    NSLog(@"selected bubble at index");
 }
 
 -(BOOL)bubbleView:(HEBubbleView *)bubbleView shouldShowMenuForBubbleItemAtIndex:(NSInteger)index
@@ -153,10 +153,19 @@
     return YES;
 }
 
+-(BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
 
 -(void)test1:(id)sender
 {
     NSLog(@"test1 controller %@",[sender class]);
+    
+    
+    [data removeObjectAtIndex:bubbleView.activeBubble.index];
+    [bubbleView reloadData];
+    
 }
 
 -(void)test2:(id)sender
@@ -170,13 +179,13 @@
     
     NSArray *items;
     
-    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"Test1" action:@selector(test1:)];
-    UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"Test2" action:@selector(test2:)];
+    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"Delete item" action:@selector(test1:)];
     
-    items = [NSArray arrayWithObjects:item1,item2, nil];
+    
+    items = [NSArray arrayWithObjects:item1, nil];
     
     [item1 release];
-    [item2 release];
+    
     
     
     return items; 

@@ -24,24 +24,27 @@
     
     @private
     BOOL _selected;
-    BOOL _highlighted;
+    //BOOL _highlighted;
     NSString *reuseIdentifier;
     NSInteger index;
     CGPoint touchBegan;
+    CGFloat bubbleTextLabelPadding;
 }
 
 @property (nonatomic, assign) id<HEBubbleViewItemDelegate> delegate;
 @property (nonatomic, readonly) BOOL _selected;
-@property (nonatomic, readonly) BOOL _highlighted;
+//@property (nonatomic, readonly) BOOL _highlighted;
 @property (nonatomic, readonly) NSString *reuseIdentifier;
 @property (nonatomic, readonly) UILabel *textLabel;
 @property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) CGFloat bubbleTextLabelPadding;
 
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated;
--(void)setHighlighted:(BOOL)selected animated:(BOOL)animated;
+
 
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifierIN;
 -(void)setBubbleItemIndex:(NSInteger)itemIndex;
--(BOOL)isItemVisibleInFrame:(CGRect)frame;
+
+//-(BOOL)isItemVisibleInFrame:(CGRect)frame;
 
 @end

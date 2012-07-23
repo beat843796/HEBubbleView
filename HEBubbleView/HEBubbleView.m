@@ -28,6 +28,7 @@
 @synthesize itemHeight;
 
 @synthesize reuseQueue;
+@synthesize activeBubble;
 
 -(id)initWithFrame:(CGRect)frame
 {
@@ -67,7 +68,7 @@
     }
     
     if (reuseItem != nil) {
-        [reuseQueue removeObject:reuseItem];
+        [reuseQueue removeObject:[reuseItem retain]]; // TODO: remove retain and find memory bug
     }
     
     
@@ -126,7 +127,7 @@
             
             HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:i];
             
-            CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width;
+            CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
             
 
             if ((nextBubbleX + bubbleWidth) > self.frame.size.width-itemPadding) {
@@ -179,6 +180,12 @@
 {
     NSLog(@"Selected item with index %i",item.index);
     
+    if (item == activeBubble) {
+        return;
+    }
+    
+    
+    [item setSelected:YES animated:YES];
     
     if ([bubbleDelegate respondsToSelector:@selector(bubbleView:didSelectBubbleItemAtIndex:)]) {
         [bubbleDelegate bubbleView:self didSelectBubbleItemAtIndex:item.index];
@@ -223,13 +230,22 @@
 {
     
     NSLog(@"will show notification");
-    self.scrollEnabled = NO;
+    self.userInteractionEnabled = NO;
 }
 
 -(void)didHideMenuController
 {
     NSLog(@"Did hide notification");
-    self.scrollEnabled = YES;
+    self.userInteractionEnabled = YES;
+    
+    [activeBubble setSelected:NO animated:YES];
+    
+    if ([bubbleDelegate respondsToSelector:@selector(bubbleView:didHideMenuForButtbleItemAtIndex:)]) {
+        [bubbleDelegate bubbleView:self didHideMenuForButtbleItemAtIndex:activeBubble.index];
+    }
+    
+    activeBubble = nil;
+    
 }
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -248,6 +264,8 @@
     NSLog(@"Showing menu items");
     
     [self becomeFirstResponder];
+    
+    activeBubble = item;
     
     menu = [UIMenuController sharedMenuController];
     menu.menuItems = nil;
