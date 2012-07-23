@@ -1,0 +1,302 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		61CF702615B80F5E004E0D5C /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CF702515B80F5E004E0D5C /* UIKit.framework */; };
+		61CF702815B80F5E004E0D5C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CF702715B80F5E004E0D5C /* Foundation.framework */; };
+		61CF702A15B80F5E004E0D5C /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CF702915B80F5E004E0D5C /* CoreGraphics.framework */; };
+		61CF703015B80F5E004E0D5C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CF702E15B80F5E004E0D5C /* InfoPlist.strings */; };
+		61CF703215B80F5E004E0D5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF703115B80F5E004E0D5C /* main.m */; };
+		61CF703615B80F5E004E0D5C /* HEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF703515B80F5E004E0D5C /* HEAppDelegate.m */; };
+		61CF704215B81169004E0D5C /* HEBubbleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704115B81169004E0D5C /* HEBubbleViewController.m */; };
+		61CF704515B81778004E0D5C /* HEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704415B81778004E0D5C /* HEBubbleViewItem.m */; };
+		61CF704915B8192C004E0D5C /* HEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704815B8192C004E0D5C /* HEBubbleView.m */; };
+		61CF704B15B82C94004E0D5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CF704A15B82C94004E0D5C /* QuartzCore.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		61CF702115B80F5E004E0D5C /* HEBubbleView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HEBubbleView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61CF702515B80F5E004E0D5C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		61CF702715B80F5E004E0D5C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		61CF702915B80F5E004E0D5C /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		61CF702D15B80F5E004E0D5C /* HEBubbleView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HEBubbleView-Info.plist"; sourceTree = "<group>"; };
+		61CF702F15B80F5E004E0D5C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		61CF703115B80F5E004E0D5C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		61CF703315B80F5E004E0D5C /* HEBubbleView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HEBubbleView-Prefix.pch"; sourceTree = "<group>"; };
+		61CF703415B80F5E004E0D5C /* HEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEAppDelegate.h; sourceTree = "<group>"; };
+		61CF703515B80F5E004E0D5C /* HEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEAppDelegate.m; sourceTree = "<group>"; };
+		61CF704015B81169004E0D5C /* HEBubbleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewController.h; sourceTree = "<group>"; };
+		61CF704115B81169004E0D5C /* HEBubbleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewController.m; sourceTree = "<group>"; };
+		61CF704315B81778004E0D5C /* HEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewItem.h; sourceTree = "<group>"; };
+		61CF704415B81778004E0D5C /* HEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewItem.m; sourceTree = "<group>"; };
+		61CF704715B8192C004E0D5C /* HEBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleView.h; sourceTree = "<group>"; };
+		61CF704815B8192C004E0D5C /* HEBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleView.m; sourceTree = "<group>"; };
+		61CF704A15B82C94004E0D5C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		61CF701E15B80F5E004E0D5C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61CF704B15B82C94004E0D5C /* QuartzCore.framework in Frameworks */,
+				61CF702615B80F5E004E0D5C /* UIKit.framework in Frameworks */,
+				61CF702815B80F5E004E0D5C /* Foundation.framework in Frameworks */,
+				61CF702A15B80F5E004E0D5C /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		61CF701615B80F5E004E0D5C = {
+			isa = PBXGroup;
+			children = (
+				61CF704A15B82C94004E0D5C /* QuartzCore.framework */,
+				61CF702B15B80F5E004E0D5C /* HEBubbleView */,
+				61CF702415B80F5E004E0D5C /* Frameworks */,
+				61CF702215B80F5E004E0D5C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		61CF702215B80F5E004E0D5C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61CF702115B80F5E004E0D5C /* HEBubbleView.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		61CF702415B80F5E004E0D5C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				61CF702515B80F5E004E0D5C /* UIKit.framework */,
+				61CF702715B80F5E004E0D5C /* Foundation.framework */,
+				61CF702915B80F5E004E0D5C /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		61CF702B15B80F5E004E0D5C /* HEBubbleView */ = {
+			isa = PBXGroup;
+			children = (
+				61CF704615B81781004E0D5C /* View */,
+				61CF703F15B80F84004E0D5C /* Controller */,
+				61CF703415B80F5E004E0D5C /* HEAppDelegate.h */,
+				61CF703515B80F5E004E0D5C /* HEAppDelegate.m */,
+				61CF702C15B80F5E004E0D5C /* Supporting Files */,
+			);
+			path = HEBubbleView;
+			sourceTree = "<group>";
+		};
+		61CF702C15B80F5E004E0D5C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				61CF702D15B80F5E004E0D5C /* HEBubbleView-Info.plist */,
+				61CF702E15B80F5E004E0D5C /* InfoPlist.strings */,
+				61CF703115B80F5E004E0D5C /* main.m */,
+				61CF703315B80F5E004E0D5C /* HEBubbleView-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		61CF703F15B80F84004E0D5C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				61CF704015B81169004E0D5C /* HEBubbleViewController.h */,
+				61CF704115B81169004E0D5C /* HEBubbleViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		61CF704615B81781004E0D5C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				61CF704315B81778004E0D5C /* HEBubbleViewItem.h */,
+				61CF704415B81778004E0D5C /* HEBubbleViewItem.m */,
+				61CF704715B8192C004E0D5C /* HEBubbleView.h */,
+				61CF704815B8192C004E0D5C /* HEBubbleView.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		61CF702015B80F5E004E0D5C /* HEBubbleView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61CF703915B80F5E004E0D5C /* Build configuration list for PBXNativeTarget "HEBubbleView" */;
+			buildPhases = (
+				61CF701D15B80F5E004E0D5C /* Sources */,
+				61CF701E15B80F5E004E0D5C /* Frameworks */,
+				61CF701F15B80F5E004E0D5C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HEBubbleView;
+			productName = HEBubbleView;
+			productReference = 61CF702115B80F5E004E0D5C /* HEBubbleView.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		61CF701815B80F5E004E0D5C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = HE;
+				LastUpgradeCheck = 0430;
+			};
+			buildConfigurationList = 61CF701B15B80F5E004E0D5C /* Build configuration list for PBXProject "HEBubbleView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 61CF701615B80F5E004E0D5C;
+			productRefGroup = 61CF702215B80F5E004E0D5C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				61CF702015B80F5E004E0D5C /* HEBubbleView */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		61CF701F15B80F5E004E0D5C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61CF703015B80F5E004E0D5C /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		61CF701D15B80F5E004E0D5C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61CF703215B80F5E004E0D5C /* main.m in Sources */,
+				61CF703615B80F5E004E0D5C /* HEAppDelegate.m in Sources */,
+				61CF704215B81169004E0D5C /* HEBubbleViewController.m in Sources */,
+				61CF704515B81778004E0D5C /* HEBubbleViewItem.m in Sources */,
+				61CF704915B8192C004E0D5C /* HEBubbleView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		61CF702E15B80F5E004E0D5C /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61CF702F15B80F5E004E0D5C /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		61CF703715B80F5E004E0D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		61CF703815B80F5E004E0D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		61CF703A15B80F5E004E0D5C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HEBubbleView/HEBubbleView-Prefix.pch";
+				INFOPLIST_FILE = "HEBubbleView/HEBubbleView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		61CF703B15B80F5E004E0D5C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "HEBubbleView/HEBubbleView-Prefix.pch";
+				INFOPLIST_FILE = "HEBubbleView/HEBubbleView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		61CF701B15B80F5E004E0D5C /* Build configuration list for PBXProject "HEBubbleView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61CF703715B80F5E004E0D5C /* Debug */,
+				61CF703815B80F5E004E0D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		61CF703915B80F5E004E0D5C /* Build configuration list for PBXNativeTarget "HEBubbleView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61CF703A15B80F5E004E0D5C /* Debug */,
+				61CF703B15B80F5E004E0D5C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 61CF701815B80F5E004E0D5C /* Project object */;
+}
