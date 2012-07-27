@@ -42,6 +42,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 @synthesize reuseIdentifier;
 @synthesize textLabel;
 @synthesize index;
+@synthesize userInfo;
 @synthesize bubbleTextLabelPadding;
 
 -(void)dealloc
@@ -49,16 +50,12 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     [reuseIdentifier release];
     reuseIdentifier = nil;
     delegate = nil;
+    [userInfo release];
+    userInfo = nil;
     
     [super dealloc];
 }
 
-/*
--(BOOL)isItemVisibleInFrame:(CGRect)frame
-{
-    return (BOOL)CGRectIntersectsRect(frame, self.frame);
-}
-*/
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -68,7 +65,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     
     touchBegan = touchPoint;
     
-    [self setSelected:YES animated:YES];
+    [self setSelected:YES animated:NO];
     
     
 }
@@ -91,8 +88,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     
     if (CGRectContainsPoint(self.bounds, touchPoint)) {
         [self touchesCancelled:touches withEvent:event];
-        
-        NSLog(@"Click");
+
         
         if ([delegate respondsToSelector:@selector(selectedBubbleItem:)]) {
             [delegate selectedBubbleItem:self];
@@ -103,12 +99,12 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
         return;
     }
     
-    [self setSelected:NO animated:YES];
+    [self setSelected:NO animated:NO];
 }
 
 -(void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [self setSelected:NO animated:YES];
+    [self setSelected:NO animated:NO];
 }
 
 -(void)setBubbleItemIndex:(NSInteger)itemIndex
@@ -122,8 +118,6 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 {
     self = [super initWithFrame:CGRectZero];
     if (self) {
-        
-        NSLog(@"HEBUbbleView: called initWithReuseIdentifier and set reuseIdentifier to %@",reuseIdentifierIN);
         
         reuseIdentifier = [reuseIdentifierIN retain];
         
@@ -159,13 +153,10 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 
     self.textLabel.frame = CGRectMake(bubbleTextLabelPadding, self.bounds.origin.y, self.bounds.size.width-2*bubbleTextLabelPadding, self.bounds.size.height);
 
-    NSLog(@"Layout subviews");
-    
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = self.bounds.size.height/2;
     self.layer.borderWidth = 1.0;
     self.layer.borderColor = [DEFAUL_BORDER_COLOR CGColor];
-    
     
     [super layoutSubviews];
 }
@@ -174,12 +165,36 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 {
     if (selected) {
         
-        self.backgroundColor = DEFAULT_SELECTED_BG_COLOR;
-        self.textLabel.textColor = DEFAULT_SELECTED_TEXT_COLOR;
+        if (animated) {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.1];
+            [UIView setAnimationBeginsFromCurrentState:YES];
+            self.backgroundColor = DEFAULT_SELECTED_BG_COLOR;
+            self.textLabel.textColor = DEFAULT_SELECTED_TEXT_COLOR;
+            [UIView commitAnimations];
+
+        }else {
+            self.backgroundColor = DEFAULT_SELECTED_BG_COLOR;
+            self.textLabel.textColor = DEFAULT_SELECTED_TEXT_COLOR;
+        }
+
         
     }else {
-        self.backgroundColor = DEFAULT_BG_COLOR;
-        self.textLabel.textColor = DEFAULT_TEXT_COLOR;
+        
+        if (animated) {
+            [UIView beginAnimations:nil context:nil];
+            [UIView setAnimationDuration:0.1];
+            [UIView setAnimationBeginsFromCurrentState:YES];
+            self.backgroundColor = DEFAULT_BG_COLOR;
+            self.textLabel.textColor = DEFAULT_TEXT_COLOR;
+            [UIView commitAnimations];
+            
+        }else {
+            self.backgroundColor = DEFAULT_BG_COLOR;
+            self.textLabel.textColor = DEFAULT_TEXT_COLOR;
+        }
+        
+        
     }
     
     isSelected = selected;
@@ -192,7 +207,12 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     self.index = 0;
     self.delegate = nil;
     isSelected = NO;
-    
+    self.userInfo = nil;
+    [CATransaction begin];
+    [self.layer removeAllAnimations];
+    [CATransaction commit];
+    self.alpha = 1.0;
+
 }
 
 @end

@@ -11,7 +11,8 @@
 @interface HEBubbleViewController ()
 
 -(void)test1:(id)sender;
--(void)test2:(id)sender;
+-(void)inserLeft:(id)sender;
+-(void)insertRight:(id)sender;
 -(void)addDummyItem;
 @end
 
@@ -74,9 +75,24 @@
     
     NSInteger number = [data count] + 1;
     
+    NSInteger index = [data count];
     
-    [data addObject:[NSString stringWithFormat:@"Item %i", number]];
-    [bubbleView reloadData];
+    if (index < 0) {
+        index = 0;
+    }
+    
+    if (index > [data count]) {
+        index = [data count];
+    }
+    
+    NSLog(@"DATACOUNT %i",number);
+    
+    [data insertObject:[NSString stringWithFormat:@"Item %i", number] atIndex:index];
+    
+    [bubbleView addItemAnimated:YES];
+    
+    
+    //[bubbleView reloadData];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -123,7 +139,7 @@
 {
     // TODO: implement reuse queue
     
-    NSLog(@"Requesting bubbble");
+    NSLog(@"Requesting bubbble for index %i",index);
     
     NSString *itemIdentifier = @"bubble";
     
@@ -134,6 +150,9 @@
     }
     
     item.textLabel.text = [data objectAtIndex:index];
+    
+    NSLog(@"TEXT: %@",[data objectAtIndex:index]);
+    NSLog(@"ITEMS:%@",data);
     
     return item;
 }
@@ -164,14 +183,35 @@
     
     
     [data removeObjectAtIndex:bubbleView.activeBubble.index];
-    [bubbleView reloadData];
+    [bubbleView removeItemAtIndex:bubbleView.activeBubble.index animated:YES];
+    //[bubbleView reloadData];
     
 }
 
--(void)test2:(id)sender
+-(void)inserLeft:(id)sender
 {
-    NSLog(@"test2 controller %@",[sender class]);
+    NSInteger index = bubbleView.activeBubble.index;
     
+    if (index < 0) {
+        index = 0;
+    }
+    
+    [data insertObject:[NSString stringWithFormat:@"Item %i", [data count]+1] atIndex:index];
+    
+    [bubbleView insertItemAtIndex:index animated:YES];
+}
+-(void)insertRight:(id)sender
+{
+    NSInteger index = bubbleView.activeBubble.index+1;
+    
+    if (index >= [data count]) {
+        [self addDummyItem];
+        return;
+    }
+    
+    [data insertObject:[NSString stringWithFormat:@"Item %i", [data count]+1] atIndex:index];
+    
+    [bubbleView insertItemAtIndex:index animated:YES];
 }
 
 -(NSArray *)bubbleView:(HEBubbleView *)bubbleView menuItemsForBubbleItemAtIndex:(NSInteger)index
@@ -179,10 +219,11 @@
     
     NSArray *items;
     
-    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"Delete item" action:@selector(test1:)];
+    UIMenuItem *item0 = [[UIMenuItem alloc] initWithTitle:@"Delete item" action:@selector(test1:)];
+    UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"Insert Left" action:@selector(inserLeft:)];
+    UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"Insert Right" action:@selector(insertRight:)];
     
-    
-    items = [NSArray arrayWithObjects:item1, nil];
+    items = [NSArray arrayWithObjects:item1,item0,item2, nil];
     
     [item1 release];
     

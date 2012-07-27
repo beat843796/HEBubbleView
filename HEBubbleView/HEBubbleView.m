@@ -7,16 +7,20 @@
 //
 
 #import "HEBubbleView.h"
-#define BUBBLE_ANIMATION_TIME 0.2
+#define BUBBLE_ANIMATION_TIME 0.4
+#define BUBBLE_FADE_TIME 0.2
 @interface HEBubbleView (private)
 
--(void)renderBubbles;
--(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end;
+-(void)renderBubblesAnimated:(BOOL)animated;
+-(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end animated:(BOOL)animated;
 
 -(void)showMenuCalloutWthItems:(NSArray *)menuItems forBubbleItem:(HEBubbleViewItem *)item;
 
 -(void)willShowMenuController;
 -(void)didHideMenuController;
+-(void)fadeInBubble:(HEBubbleViewItem *)item;
+-(void)fadeOutBubble:(HEBubbleViewItem *)item;
+-(void)removeItem:(HEBubbleViewItem *)item animated:(BOOL)animated;
 
 @end
 
@@ -61,7 +65,7 @@
     for (HEBubbleViewItem *item in reuseQueue) {
         
         if ([item.reuseIdentifier isEqualToString:reuseIdentifier]) {
-            NSLog(@"found reuse item");
+
             reuseItem = [item retain];
             break;
             
@@ -106,7 +110,7 @@
             HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:i];
             
             [items addObject:bubble];
-            
+            [bubble setBubbleItemIndex:i];
             bubble.delegate = self;
             bubble.frame = CGRectZero;
             [self addSubview:bubble];
@@ -115,24 +119,171 @@
     }
     
     
-    [self renderBubbles];
+    [self renderBubblesAnimated:NO];
 }
 
--(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end
+-(void)removeItemAtIndex:(NSInteger)index animated:(BOOL)animated
 {
-    NSLog(@"rendering bubbles");
+    
+    if (index < 0 || index >= [items count]) {
+        NSLog(@"Remove item:- Invalid item index.");
+        return;
+    }
+    
+    HEBubbleViewItem *item = [items objectAtIndex:index];
+    
+
+    
+    
+    [reuseQueue addObject:[items objectAtIndex:index]];
+    [items removeObject:item];
+    
+    
+    [self removeItem:item animated:animated];
+        
+   
+    
+}
+
+
+
+-(void)addItemAnimated:(BOOL)animated
+{
+    [self insertItemAtIndex:[items count] animated:animated];
+}
+
+-(void)insertItemAtIndex:(NSInteger)index animated:(BOOL)animated
+{
+    
+    
+    if (index < 0) {
+        index = 0;
+    }
+    
+    if (index > [items count]) {
+        index = [items count];
+        
+    }
+    
+    
+    
+    if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(bubbleView:bubbleItemForIndex:)]) {
+        HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:index];
+        
+        
+
+        [items insertObject:bubble atIndex:index];
+        [bubble setBubbleItemIndex:[items indexOfObject:bubble]];
+
+        
+        
+        bubble.delegate = self;
+        bubble.frame = CGRectZero;
+        [self addSubview:bubble];
+        
+        
+        
+        
+        bubble.alpha = 0.0;
+        
+        
+        
+        for (int i = 0; i < [items count]; i++) {
+            HEBubbleViewItem *item = [items objectAtIndex:i];
+            item.index = i;
+        }
+         
+
+        
+        
+        if (animated) {
+            
+            if ([items lastObject] == bubble) {
+
+                [self renderBubblesFromIndex:0 toIndex:[items count] animated:NO];
+                [self fadeInBubble:bubble];
+            }else {
+
+                [self renderBubblesFromIndex:0 toIndex:[items count] animated:animated];
+                [self performSelector:@selector(fadeInBubble:) withObject:bubble afterDelay:BUBBLE_ANIMATION_TIME+BUBBLE_FADE_TIME];
+            }
+            
+            
+            
+        }else {
+            [self renderBubblesFromIndex:0 toIndex:[items count] animated:animated];
+            bubble.alpha = 1.0;
+            //[self renderBubblesAnimated:animated];
+        }
+        
+        
+        
+    }
+    
+    
+}
+
+-(void)fadeInBubble:(HEBubbleViewItem *)item
+{
+    [UIView beginAnimations:@"bubbleFadeIn" context:@"bubbleFade"];
+    item.alpha = 1.0;
+    [UIView commitAnimations];
+}
+
+-(void)fadeOutBubble:(HEBubbleViewItem *)item
+{
+    
+    [UIView beginAnimations:@"bubbleFadeOut" context:@"bubbleFade"];
+    [UIView setAnimationDuration:BUBBLE_ANIMATION_TIME];
+    item.alpha = 0.0;
+    [UIView commitAnimations];
+    
+    [self performSelector:@selector(removeItem:animated:) withObject:item afterDelay:BUBBLE_ANIMATION_TIME+BUBBLE_FADE_TIME];
+    
+}
+
+-(void)removeItem:(HEBubbleViewItem *)item animated:(BOOL)animated
+{
+    
+    NSInteger index = 0;
+    
+    
+    [item removeFromSuperview];
+    
+    
+    
+    
+    for (HEBubbleViewItem *bubble in items) {
+     
+        bubble.index = index;
+        
+        index++;
+        
+    }
+    
+    
+    
+    [self renderBubblesAnimated:animated];
+}
+
+-(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end animated:(BOOL)animated
+{
+
     
     CGFloat nextBubbleX = itemPadding;
     CGFloat nextBubbleY = itemPadding;
     
     NSInteger lineNumber = 1;
     
-    NSInteger index = 0;
     
-    for (HEBubbleViewItem *bubble in items) {
+    for (int i = start; i < end; i++) {
         
+    
+    
+    //for (HEBubbleViewItem *bubble in items) {
         
-        
+        HEBubbleViewItem *bubble = [items objectAtIndex:i];
+        [bubble setSelected:NO animated:animated];
         
         CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
         
@@ -147,9 +298,21 @@
         
         CGRect bubbleFrame = CGRectMake(nextBubbleX, nextBubbleY, bubbleWidth, itemHeight);
         
-        bubble.frame = bubbleFrame;
         
-        [bubble setBubbleItemIndex:index];
+        if (animated) {
+            [UIView beginAnimations:@"bubbleRendering" context:@"bubbleItems"];
+            [UIView setAnimationDuration:BUBBLE_ANIMATION_TIME];
+            bubble.frame = bubbleFrame;
+            
+            [UIView commitAnimations];
+        }else {
+        
+            bubble.frame = bubbleFrame;
+        
+        }
+        
+    
+        
         
         nextBubbleX += bubble.frame.size.width + itemPadding;
         
@@ -160,12 +323,15 @@
     
     self.contentSize = CGSizeMake(self.frame.size.width, lineNumber * (itemHeight + itemPadding) + itemPadding);
     
-    index++;
+
 }
 
--(void)renderBubbles
+
+
+-(void)renderBubblesAnimated:(BOOL)animated
 {
-    [self renderBubblesFromIndex:0 toIndex:[items count]-1];
+
+    [self renderBubblesFromIndex:0 toIndex:[items count] animated:animated];
     
 }
 
@@ -173,7 +339,7 @@
 
 -(void)selectedBubbleItem:(HEBubbleViewItem *)item
 {
-    NSLog(@"Selected item with index %i",item.index);
+
     
     if (item == activeBubble) {
         return;
@@ -194,12 +360,12 @@
             
             if ([bubbleDelegate respondsToSelector:@selector(bubbleView:menuItemsForBubbleItemAtIndex:)]) {
                 
-                NSLog(@"creating menu");
+
                 
                 menuItems = [bubbleDelegate bubbleView:self menuItemsForBubbleItemAtIndex:item.index];
             }
             
-            NSLog(@"Menuitems %@",menuItems);
+
             
             if (menuItems) {
                 [self showMenuCalloutWthItems:menuItems forBubbleItem:item];
@@ -215,7 +381,7 @@
 
 -(BOOL)canBecomeFirstResponder
 {
-    NSLog(@"ASked for can become first responder");
+
     return YES;
 }
 
@@ -224,13 +390,13 @@
 -(void)willShowMenuController
 {
     
-    NSLog(@"will show notification");
+
     self.userInteractionEnabled = NO;
 }
 
 -(void)didHideMenuController
 {
-    NSLog(@"Did hide notification");
+
     self.userInteractionEnabled = YES;
     
     [activeBubble setSelected:NO animated:YES];
@@ -256,7 +422,7 @@
 
 -(void)showMenuCalloutWthItems:(NSArray *)menuItems forBubbleItem:(HEBubbleViewItem *)item
 {
-    NSLog(@"Showing menu items");
+
     
     [self becomeFirstResponder];
     
@@ -265,12 +431,11 @@
     menu = [UIMenuController sharedMenuController];
     menu.menuItems = nil;
     menu.menuItems = menuItems;
-    NSLog(@"Menuitems %@",menu.menuItems);
+
     [menu setTargetRect:item.frame inView:self];
     [menu setMenuVisible:YES animated:YES];
     
-    
-    NSLog(@"Menu should be shown");
+
 }
 
 -(void)dealloc

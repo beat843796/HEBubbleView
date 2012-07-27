@@ -22,9 +22,10 @@
     
     UILabel *textLabel;
     
+    NSMutableDictionary *userInfo;
+    
     @private
     BOOL _selected;
-    //BOOL _highlighted;
     NSString *reuseIdentifier;
     NSInteger index;
     CGPoint touchBegan;
@@ -33,7 +34,7 @@
 
 @property (nonatomic, assign) id<HEBubbleViewItemDelegate> delegate;
 @property (nonatomic, readonly) BOOL _selected;
-//@property (nonatomic, readonly) BOOL _highlighted;
+@property (nonatomic, retain) NSMutableDictionary *userInfo;
 @property (nonatomic, readonly) NSString *reuseIdentifier;
 @property (nonatomic, readonly) UILabel *textLabel;
 @property (nonatomic, assign) NSInteger index;
@@ -47,6 +48,5 @@
 
 -(void)prepareItemForReuse;
 
-//-(BOOL)isItemVisibleInFrame:(CGRect)frame;
 
 @end
