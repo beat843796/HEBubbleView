@@ -45,6 +45,8 @@
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifierIN;
 -(void)setBubbleItemIndex:(NSInteger)itemIndex;
 
+-(void)prepareItemForReuse;
+
 //-(BOOL)isItemVisibleInFrame:(CGRect)frame;
 
 @end

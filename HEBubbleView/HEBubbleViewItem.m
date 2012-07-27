@@ -29,7 +29,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 
 @interface HEBubbleViewItem (private)
 
--(void)prepareItemForReuse;
+
 
 @end
 

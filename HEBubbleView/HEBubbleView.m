@@ -11,6 +11,7 @@
 @interface HEBubbleView (private)
 
 -(void)renderBubbles;
+-(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end;
 
 -(void)showMenuCalloutWthItems:(NSArray *)menuItems forBubbleItem:(HEBubbleViewItem *)item;
 
@@ -36,9 +37,10 @@
     
     if (self) {
     
-        itemHeight = 25.0;
-        itemPadding = 20.0;
+        itemHeight = 20.0;
+        itemPadding = 10;
 
+        items = [[NSMutableArray alloc] init];
         reuseQueue = [[NSMutableArray alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowMenuController) name:UIMenuControllerWillShowMenuNotification object:nil];
@@ -60,7 +62,7 @@
         
         if ([item.reuseIdentifier isEqualToString:reuseIdentifier]) {
             NSLog(@"found reuse item");
-            reuseItem = item;
+            reuseItem = [item retain];
             break;
             
         }
@@ -68,26 +70,18 @@
     }
     
     if (reuseItem != nil) {
-        [reuseQueue removeObject:[reuseItem retain]]; // TODO: remove retain and find memory bug
+        [reuseQueue removeObject:reuseItem]; 
     }
     
     
-    return reuseItem;
+    [reuseItem prepareItemForReuse];
+    
+    return [reuseItem autorelease];
     
 }
 
 -(void)reloadData
 {
-    [self renderBubbles];
-}
-
-
-
--(void)renderBubbles
-{
-    NSLog(@"rendering bubbles");
-    
-    
     NSInteger bubbleCount = 0;
     
     if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(numberOfItemsInBubbleView:)]) {
@@ -95,82 +89,83 @@
     }
     
     
-    
-    for (HEBubbleViewItem *item in self.subviews) {
+    for (HEBubbleViewItem *oldItem in items) {
         
-        //NSLog(@"CLASS: %@",[HEBubbleViewItem class]);
-        
-        if ([item isKindOfClass:[HEBubbleViewItem class]]) {
-            
-            [reuseQueue addObject:item];
-            [item removeFromSuperview];
-            
-        }
-        
+        [reuseQueue addObject:oldItem];
+        [oldItem removeFromSuperview];
         
     }
     
+    [items removeAllObjects];
+    
+    
+    for (int i = 0; i < bubbleCount; i++) {
+        
+        
+        if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(bubbleView:bubbleItemForIndex:)]) {
+            HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:i];
+            
+            [items addObject:bubble];
+            
+            bubble.delegate = self;
+            bubble.frame = CGRectZero;
+            [self addSubview:bubble];
+        }
+        
+    }
+    
+    
+    [self renderBubbles];
+}
 
-    NSLog(@"Bubble count %i",bubbleCount);
-
+-(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end
+{
+    NSLog(@"rendering bubbles");
+    
     CGFloat nextBubbleX = itemPadding;
     CGFloat nextBubbleY = itemPadding;
     
     NSInteger lineNumber = 1;
     
-    for (int i = 0; i < bubbleCount; i++) {
+    NSInteger index = 0;
+    
+    for (HEBubbleViewItem *bubble in items) {
         
         
         
-        if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(bubbleView:bubbleItemForIndex:)]) {
-
+        
+        CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
+        
+        
+        if ((nextBubbleX + bubbleWidth) > self.frame.size.width-itemPadding) {
+            lineNumber++;
             
-            HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:i];
-            
-            CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
-            
-
-            if ((nextBubbleX + bubbleWidth) > self.frame.size.width-itemPadding) {
-                lineNumber++;
-                
-                nextBubbleX = itemPadding;
-                nextBubbleY += (itemHeight+itemPadding);
-                
-            }
-            
-            CGRect bubbleFrame = CGRectMake(nextBubbleX, nextBubbleY, bubbleWidth, itemHeight);
-            
-            bubble.frame = bubbleFrame;
-            
-            [bubble setBubbleItemIndex:i];
-            bubble.delegate = self;
-           [self addSubview:bubble];
-            //[bubble release];
-            
-             NSLog(@"Bubble %@",bubble);
-            
-           
-            
-            nextBubbleX += bubble.frame.size.width + itemPadding;
-            
-
+            nextBubbleX = itemPadding;
+            nextBubbleY += (itemHeight+itemPadding);
             
         }
         
+        CGRect bubbleFrame = CGRectMake(nextBubbleX, nextBubbleY, bubbleWidth, itemHeight);
+        
+        bubble.frame = bubbleFrame;
+        
+        [bubble setBubbleItemIndex:index];
+        
+        nextBubbleX += bubble.frame.size.width + itemPadding;
+        
+        
+        
         
     }
-    NSLog(@"Setting content size");
+    
     self.contentSize = CGSizeMake(self.frame.size.width, lineNumber * (itemHeight + itemPadding) + itemPadding);
-    NSLog(@"Bubble setup complete");
     
-    
-   
-	NSLog(@"reuse queue %@",reuseQueue);
-    
-	
-    NSLog(@"WTF");
-    
-    //[self setContentSize:CGSizeMake(self.frame.size.width, (lineNumber+1) * itemHeight )];
+    index++;
+}
+
+-(void)renderBubbles
+{
+    [self renderBubblesFromIndex:0 toIndex:[items count]-1];
     
 }
 
@@ -286,6 +281,7 @@
     self.bubbleDelegate = nil;
     
     [reuseQueue release];
+    [items release];
     
     [super dealloc];
 }

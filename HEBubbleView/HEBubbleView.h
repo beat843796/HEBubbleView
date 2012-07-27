@@ -40,12 +40,12 @@
     CGFloat itemHeight;
     
     NSMutableArray *reuseQueue;
+    NSMutableArray *items;
     
     UIMenuController *menu;
-    
-    
    
     HEBubbleViewItem *activeBubble;
+    BOOL isAnimationRunning;
 }
 
 @property (nonatomic, assign) id<HEBubbleViewDelegate> bubbleDelegate;
@@ -60,5 +60,8 @@
 -(HEBubbleViewItem *)dequeueItemUsingReuseIdentifier:(NSString *)reuseIdentifier;
 
 -(void)reloadData;
+-(void)removeItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+-(void)addItemAnimated:(BOOL)animated;
+-(void)insertItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 @end
