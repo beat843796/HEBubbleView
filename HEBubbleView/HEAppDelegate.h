@@ -3,21 +3,21 @@
 //  HEBubbleView
 //
 //  Created by Clemens Hammerl on 19.07.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Clemens Hammerl / Adam Eri. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "HEBubbleViewController.h"
+#import "HESampleController.h"
 
 @interface HEAppDelegate : UIResponder <UIApplicationDelegate>
 {
     
-    HEBubbleViewController *bubbleController;
+    HESampleController *bubbleController;
     UINavigationController *nav;
     
 }
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) HEBubbleViewController *bubbleController;
+@property (strong, nonatomic) HESampleController *bubbleController;
 @property (strong, nonatomic) UINavigationController *nav;
 
 @end

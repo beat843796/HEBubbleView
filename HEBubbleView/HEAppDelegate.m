@@ -3,7 +3,7 @@
 //  HEBubbleView
 //
 //  Created by Clemens Hammerl on 19.07.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Clemens Hammerl / Adam Eri. All rights reserved.
 //
 
 #import "HEAppDelegate.h"
@@ -26,17 +26,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    bubbleController = [[HEBubbleViewController alloc] init];
+    bubbleController = [[HESampleController alloc] init];
     nav = [[UINavigationController alloc] initWithRootViewController:bubbleController];
     [bubbleController release];
     
-    bubbleController.title = @"Bubble Demo";
-    
-    
-    
-   
-    
-    
+    bubbleController.title = @"Bubble View Sample";
+
     self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
     [self.window addSubview:nav.view];
     // Override point for customization after application launch.

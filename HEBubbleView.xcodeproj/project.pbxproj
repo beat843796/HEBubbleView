@@ -13,7 +13,7 @@
 		61CF703015B80F5E004E0D5C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 61CF702E15B80F5E004E0D5C /* InfoPlist.strings */; };
 		61CF703215B80F5E004E0D5C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF703115B80F5E004E0D5C /* main.m */; };
 		61CF703615B80F5E004E0D5C /* HEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF703515B80F5E004E0D5C /* HEAppDelegate.m */; };
-		61CF704215B81169004E0D5C /* HEBubbleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704115B81169004E0D5C /* HEBubbleViewController.m */; };
+		61CF704215B81169004E0D5C /* HESampleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704115B81169004E0D5C /* HESampleController.m */; };
 		61CF704515B81778004E0D5C /* HEBubbleViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704415B81778004E0D5C /* HEBubbleViewItem.m */; };
 		61CF704915B8192C004E0D5C /* HEBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 61CF704815B8192C004E0D5C /* HEBubbleView.m */; };
 		61CF704B15B82C94004E0D5C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CF704A15B82C94004E0D5C /* QuartzCore.framework */; };
@@ -30,8 +30,8 @@
 		61CF703315B80F5E004E0D5C /* HEBubbleView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "HEBubbleView-Prefix.pch"; sourceTree = "<group>"; };
 		61CF703415B80F5E004E0D5C /* HEAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HEAppDelegate.h; sourceTree = "<group>"; };
 		61CF703515B80F5E004E0D5C /* HEAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HEAppDelegate.m; sourceTree = "<group>"; };
-		61CF704015B81169004E0D5C /* HEBubbleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewController.h; sourceTree = "<group>"; };
-		61CF704115B81169004E0D5C /* HEBubbleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewController.m; sourceTree = "<group>"; };
+		61CF704015B81169004E0D5C /* HESampleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HESampleController.h; sourceTree = "<group>"; };
+		61CF704115B81169004E0D5C /* HESampleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HESampleController.m; sourceTree = "<group>"; };
 		61CF704315B81778004E0D5C /* HEBubbleViewItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleViewItem.h; sourceTree = "<group>"; };
 		61CF704415B81778004E0D5C /* HEBubbleViewItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HEBubbleViewItem.m; sourceTree = "<group>"; };
 		61CF704715B8192C004E0D5C /* HEBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HEBubbleView.h; sourceTree = "<group>"; };
@@ -108,8 +108,8 @@
 		61CF703F15B80F84004E0D5C /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				61CF704015B81169004E0D5C /* HEBubbleViewController.h */,
-				61CF704115B81169004E0D5C /* HEBubbleViewController.m */,
+				61CF704015B81169004E0D5C /* HESampleController.h */,
+				61CF704115B81169004E0D5C /* HESampleController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -189,7 +189,7 @@
 			files = (
 				61CF703215B80F5E004E0D5C /* main.m in Sources */,
 				61CF703615B80F5E004E0D5C /* HEAppDelegate.m in Sources */,
-				61CF704215B81169004E0D5C /* HEBubbleViewController.m in Sources */,
+				61CF704215B81169004E0D5C /* HESampleController.m in Sources */,
 				61CF704515B81778004E0D5C /* HEBubbleViewItem.m in Sources */,
 				61CF704915B8192C004E0D5C /* HEBubbleView.m in Sources */,
 			);
@@ -295,6 +295,7 @@
 				61CF703B15B80F5E004E0D5C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

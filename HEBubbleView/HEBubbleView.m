@@ -3,7 +3,7 @@
 //  HEBubbleView
 //
 //  Created by Clemens Hammerl on 19.07.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Clemens Hammerl / Adam Eri. All rights reserved.
 //
 
 #import "HEBubbleView.h"
@@ -35,6 +35,26 @@
 @synthesize reuseQueue;
 @synthesize activeBubble;
 
+#pragma mark - Memory Management
+
+// memory management
+-(void)dealloc
+{
+    // finally remove observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    self.bubbleDataSource = nil;
+    self.bubbleDelegate = nil;
+    
+    [reuseQueue release];
+    [items release];
+    
+    [super dealloc];
+}
+
+#pragma mark - Initialization
+
+// initializiation
 -(id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -46,17 +66,16 @@
 
         items = [[NSMutableArray alloc] init];
         reuseQueue = [[NSMutableArray alloc] init];
-
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowMenuController) name:UIMenuControllerWillShowMenuNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didHideMenuController) name:UIMenuControllerDidHideMenuNotification object:nil];
-        
+ 
     }
     
     return  self;
 }
 
+//////////////////////////// Public methods /////////////////////////////////
+#pragma mark - Public methods
 
-
+// use items from the queue
 -(HEBubbleViewItem *)dequeueItemUsingReuseIdentifier:(NSString *)reuseIdentifier
 {
     
@@ -84,14 +103,19 @@
     
 }
 
+// reloads all data
 -(void)reloadData
 {
     NSInteger bubbleCount = 0;
+    
+    // determine item count
     
     if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(numberOfItemsInBubbleView:)]) {
         bubbleCount = [bubbleDataSource numberOfItemsInBubbleView:self];
     }
     
+    
+    // remove all items
     
     for (HEBubbleViewItem *oldItem in items) {
         
@@ -102,6 +126,8 @@
     
     [items removeAllObjects];
     
+    
+    // add the new items
     
     for (int i = 0; i < bubbleCount; i++) {
         
@@ -118,10 +144,13 @@
         
     }
     
+    // render all items
     
     [self renderBubblesAnimated:NO];
 }
 
+// removes an item at the given index. data must be inserted by the datasource
+// bevore calling this method
 -(void)removeItemAtIndex:(NSInteger)index animated:(BOOL)animated
 {
     
@@ -131,27 +160,25 @@
     }
     
     HEBubbleViewItem *item = [items objectAtIndex:index];
-    
 
-    
-    
     [reuseQueue addObject:[items objectAtIndex:index]];
     [items removeObject:item];
     
     
     [self removeItem:item animated:animated];
-        
-   
-    
+
 }
 
 
-
+// insert an item at the end of the list. data must be inserted by the datasource
+// bevore calling this method
 -(void)addItemAnimated:(BOOL)animated
 {
     [self insertItemAtIndex:[items count] animated:animated];
 }
 
+// insert an item at the given index. data must be inserted by the datasource
+// bevore calling this method
 -(void)insertItemAtIndex:(NSInteger)index animated:(BOOL)animated
 {
     
@@ -164,38 +191,24 @@
         index = [items count];
         
     }
-    
-    
-    
+
     if (bubbleDataSource != nil && [bubbleDataSource respondsToSelector:@selector(bubbleView:bubbleItemForIndex:)]) {
         HEBubbleViewItem *bubble = [bubbleDataSource bubbleView:self bubbleItemForIndex:index];
-        
-        
 
         [items insertObject:bubble atIndex:index];
         [bubble setBubbleItemIndex:[items indexOfObject:bubble]];
 
-        
-        
         bubble.delegate = self;
         bubble.frame = CGRectZero;
         [self addSubview:bubble];
-        
-        
-        
-        
+
         bubble.alpha = 0.0;
-        
-        
-        
+
         for (int i = 0; i < [items count]; i++) {
             HEBubbleViewItem *item = [items objectAtIndex:i];
             item.index = i;
         }
-         
 
-        
-        
         if (animated) {
             
             if ([items lastObject] == bubble) {
@@ -207,22 +220,19 @@
                 [self renderBubblesFromIndex:0 toIndex:[items count] animated:animated];
                 [self performSelector:@selector(fadeInBubble:) withObject:bubble afterDelay:BUBBLE_ANIMATION_TIME+BUBBLE_FADE_TIME];
             }
-            
-            
-            
+
         }else {
             [self renderBubblesFromIndex:0 toIndex:[items count] animated:animated];
             bubble.alpha = 1.0;
             //[self renderBubblesAnimated:animated];
         }
-        
-        
-        
     }
-    
-    
 }
 
+//////////////////////////// View Logic /////////////////////////////////
+#pragma mark - View Logic
+
+// fades in a bubble after creation
 -(void)fadeInBubble:(HEBubbleViewItem *)item
 {
     [UIView beginAnimations:@"bubbleFadeIn" context:@"bubbleFade"];
@@ -230,6 +240,7 @@
     [UIView commitAnimations];
 }
 
+// fades out a bubble after it has been removed
 -(void)fadeOutBubble:(HEBubbleViewItem *)item
 {
     
@@ -242,17 +253,14 @@
     
 }
 
+
+// remove the given item
 -(void)removeItem:(HEBubbleViewItem *)item animated:(BOOL)animated
 {
-    
     NSInteger index = 0;
     
-    
     [item removeFromSuperview];
-    
-    
-    
-    
+
     for (HEBubbleViewItem *bubble in items) {
      
         bubble.index = index;
@@ -261,15 +269,12 @@
         
     }
     
-    
-    
     [self renderBubblesAnimated:animated];
 }
 
+// render bubbles for a given index
 -(void)renderBubblesFromIndex:(NSInteger)start toIndex:(NSInteger)end animated:(BOOL)animated
 {
-
-    
     CGFloat nextBubbleX = itemPadding;
     CGFloat nextBubbleY = itemPadding;
     
@@ -277,11 +282,7 @@
     
     
     for (int i = start; i < end; i++) {
-        
-    
-    
-    //for (HEBubbleViewItem *bubble in items) {
-        
+
         HEBubbleViewItem *bubble = [items objectAtIndex:i];
         [bubble setSelected:NO animated:animated];
         
@@ -310,15 +311,9 @@
             bubble.frame = bubbleFrame;
         
         }
-        
-    
-        
-        
+
         nextBubbleX += bubble.frame.size.width + itemPadding;
-        
-        
-        
-        
+
     }
     
     self.contentSize = CGSizeMake(self.frame.size.width, lineNumber * (itemHeight + itemPadding) + itemPadding);
@@ -327,7 +322,7 @@
 }
 
 
-
+// render all bubbles
 -(void)renderBubblesAnimated:(BOOL)animated
 {
 
@@ -335,8 +330,10 @@
     
 }
 
+//////////////////////////// Bubble Item Delegate /////////////////////////////////
+#pragma mark - Bubble Item Delegate
 
-
+// Called after a bubble is selected
 -(void)selectedBubbleItem:(HEBubbleViewItem *)item
 {
 
@@ -378,10 +375,11 @@
     }
 }
 
+//////////////////////////// Internal Logic /////////////////////////////////
+#pragma mark - Bubble Item Delegate
 
 -(BOOL)canBecomeFirstResponder
 {
-
     return YES;
 }
 
@@ -389,8 +387,6 @@
  
 -(void)willShowMenuController
 {
-    
-
     self.userInteractionEnabled = NO;
 }
 
@@ -401,6 +397,8 @@
     
     [activeBubble setSelected:NO animated:YES];
     
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     if ([bubbleDelegate respondsToSelector:@selector(bubbleView:didHideMenuForButtbleItemAtIndex:)]) {
         [bubbleDelegate bubbleView:self didHideMenuForButtbleItemAtIndex:activeBubble.index];
     }
@@ -408,6 +406,10 @@
     activeBubble = nil;
     
 }
+
+/*
+ Dismiss the menucontroller when scrollview is hit
+*/
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -420,10 +422,11 @@
     
 }
 
+
+// Show the menucontroller with the items provides by the delegate
 -(void)showMenuCalloutWthItems:(NSArray *)menuItems forBubbleItem:(HEBubbleViewItem *)item
 {
 
-    
     [self becomeFirstResponder];
     
     activeBubble = item;
@@ -432,23 +435,13 @@
     menu.menuItems = nil;
     menu.menuItems = menuItems;
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(willShowMenuController) name:UIMenuControllerWillShowMenuNotification object:menu];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didHideMenuController) name:UIMenuControllerDidHideMenuNotification object:menu];
+    
     [menu setTargetRect:item.frame inView:self];
     [menu setMenuVisible:YES animated:YES];
     
-
 }
 
--(void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    self.bubbleDataSource = nil;
-    self.bubbleDelegate = nil;
-    
-    [reuseQueue release];
-    [items release];
-    
-    [super dealloc];
-}
 
 @end

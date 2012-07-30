@@ -3,7 +3,7 @@
 //  HEBubbleView
 //
 //  Created by Clemens Hammerl on 19.07.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Clemens Hammerl / Adam Eri. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -18,14 +18,24 @@
 @interface HEBubbleViewItem : UIView
 {
 
-    id<HEBubbleViewItemDelegate> delegate;
+    id<HEBubbleViewItemDelegate> delegate;          // Bubble Item delegate
+    UILabel *textLabel;                             // textlabel that displays the bubble string
+    NSMutableDictionary *userInfo;                  // dictionary for additional data
     
-    UILabel *textLabel;
+    UIColor *unselectedBGColor;
+    UIColor *selectedBGColor;
     
-    NSMutableDictionary *userInfo;
+    UIColor *unselectedBorderColor;
+    UIColor *selectedBorderColor;
+    
+    UIColor *unselectedTextColor;
+    UIColor *selectedTextColor;
+    
+//////////// PRIVATE STUFF /////////////////
     
     @private
-    BOOL _selected;
+    
+    BOOL isSelected;
     NSString *reuseIdentifier;
     NSInteger index;
     CGPoint touchBegan;
@@ -33,15 +43,24 @@
 }
 
 @property (nonatomic, assign) id<HEBubbleViewItemDelegate> delegate;
-@property (nonatomic, readonly) BOOL _selected;
-@property (nonatomic, retain) NSMutableDictionary *userInfo;
-@property (nonatomic, readonly) NSString *reuseIdentifier;
 @property (nonatomic, readonly) UILabel *textLabel;
+@property (nonatomic, retain) NSMutableDictionary *userInfo;
+
+@property (nonatomic, retain) UIColor *unselectedBGColor;
+@property (nonatomic, retain) UIColor *selectedBGColor;
+
+@property (nonatomic, retain) UIColor *unselectedBorderColor;
+@property (nonatomic, retain) UIColor *selectedBorderColor;
+
+@property (nonatomic, retain) UIColor *unselectedTextColor;
+@property (nonatomic, retain) UIColor *selectedTextColor;
+
+@property (nonatomic, readonly) BOOL isSelected;
+@property (nonatomic, readonly) NSString *reuseIdentifier;
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, assign) CGFloat bubbleTextLabelPadding;
 
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated;
-
 
 -(id)initWithReuseIdentifier:(NSString *)reuseIdentifierIN;
 -(void)setBubbleItemIndex:(NSInteger)itemIndex;

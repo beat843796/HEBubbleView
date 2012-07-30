@@ -3,11 +3,13 @@
 //  HEBubbleView
 //
 //  Created by Clemens Hammerl on 19.07.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2012 Clemens Hammerl / Adam Eri. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "HEBubbleViewItem.h"
+
+//////////////////// Bubble View DataSource /////////////////////
 
 @class HEBubbleView;
 @protocol HEBubbleViewDataSource <NSObject>
@@ -17,6 +19,8 @@
 
 
 @end
+
+//////////////////// Bubble View Delegate /////////////////////
 
 @protocol HEBubbleViewDelegate <NSObject>
 
@@ -33,19 +37,19 @@
     
     @private
     
-    id<HEBubbleViewDelegate> bubbleDelegate;
-    id<HEBubbleViewDataSource> bubbleDataSource;
+    id<HEBubbleViewDelegate> bubbleDelegate;            // bubble view delegate
+    id<HEBubbleViewDataSource> bubbleDataSource;        // bubble view datasource
     
-    CGFloat itemPadding;
-    CGFloat itemHeight;
+    CGFloat itemPadding;                                // space between items (vertical)
+    CGFloat itemHeight;                                 // default item heigth
     
-    NSMutableArray *reuseQueue;
-    NSMutableArray *items;
+    NSMutableArray *reuseQueue;                         // reuse queue holds unused items
+    NSMutableArray *items;                              // hold the HEBubbleViewItems that are visible
     
-    UIMenuController *menu;
+    UIMenuController *menu;                             // Menu Controller
    
-    HEBubbleViewItem *activeBubble;
-    BOOL isAnimationRunning;
+    HEBubbleViewItem *activeBubble;                     // pointer to the currently selected bubble
+    
 }
 
 @property (nonatomic, assign) id<HEBubbleViewDelegate> bubbleDelegate;
@@ -57,11 +61,29 @@
 @property (nonatomic, assign) HEBubbleViewItem *activeBubble;
 @property (nonatomic, readonly) NSMutableArray *reuseQueue;
 
+/*
+ Returns an unused item from the queue if there is any
+ */
 -(HEBubbleViewItem *)dequeueItemUsingReuseIdentifier:(NSString *)reuseIdentifier;
 
+/*
+ 
+ Reloads all data. Removes all old bubbleItems from items, asks the delegate
+ for new bubbleItems and renders them to screen
+ 
+ */
 -(void)reloadData;
+
+// Removes an item from a given index and renders the view. Remove data in datasource before
+// calling this method
 -(void)removeItemAtIndex:(NSInteger)index animated:(BOOL)animated;
+
+// Adds an item at the end of the list. Remove data in datasource before
+// calling this method
 -(void)addItemAnimated:(BOOL)animated;
+
+// Adds an item from a given index and renders the view. Remove data in datasource before
+// calling this method
 -(void)insertItemAtIndex:(NSInteger)index animated:(BOOL)animated;
 
 @end
