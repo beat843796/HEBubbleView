@@ -289,7 +289,7 @@
     return items; 
 }
 
--(void)bubbleView:(HEBubbleView *)bubbleView didHideMenuForButtbleItemAtIndex:(NSInteger)index
+-(void)bubbleView:(HEBubbleView *)bubbleView didHideMenuForBubbleItemAtIndex:(NSInteger)index
 {
     NSLog(@"Did hide menu for bubble at index %i",index);
 }

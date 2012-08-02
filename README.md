@@ -1,6 +1,6 @@
 ## HEBubbleView
 Easy to use iOS UI Class for providing a bubble list similar to the contact bubbles in the
-iOS and OSX Mail App.
+iOS and OSX Mail App. Supports editing, deletion, insert, inseratAtIndex, Custom UIMenuControllerItems for a given index and animation support. Working with iPad and iPhone. Currently it is non-ARC.
 
 
 ## Usage
@@ -9,23 +9,23 @@ iOS and OSX Mail App.
 - Create a UIViewController subclass and implement the HEBubbleViewDatasource and HEBubbleViewDelegate protocol
 - Usage is very similar to UITableViewController/DataSource/Delegate
 
-- DataSource
+DataSource
 
 ```objc
 -(NSInteger)numberOfItemsInBubbleView:(HEBubbleView *)bubbleView;
 -(HEBubbleViewItem *)bubbleView:(HEBubbleView *)bubbleView bubbleItemForIndex:(NSInteger)index;
 ```
 
-- Delegate
+Delegate
 
 ```objc
 -(void)bubbleView:(HEBubbleView *)bubbleView didSelectBubbleItemAtIndex:(NSInteger)index;
 -(BOOL)bubbleView:(HEBubbleView *)bubbleView shouldShowMenuForBubbleItemAtIndex:(NSInteger)index;
 -(NSArray *)bubbleView:(HEBubbleView *)bubbleView menuItemsForBubbleItemAtIndex:(NSInteger)index;
--(void)bubbleView:(HEBubbleView *)bubbleView didHideMenuForButtbleItemAtIndex:(NSInteger)index;
+-(void)bubbleView:(HEBubbleView *)bubbleView didHideMenuForBubbleItemAtIndex:(NSInteger)index;
 ```
 
-Create and configure the BubbleView
+Create and configure the BubbleView in your ViewController
 
 ```objc
     bubbleView = [[HEBubbleView alloc] initWithFrame:self.view.frame];
@@ -36,6 +36,7 @@ Create and configure the BubbleView
     bubbleView.alwaysBounceVertical = YES;
     bubbleView.bubbleDataSource = self;
     bubbleView.bubbleDelegate = self;
+    bubbleView.selectionStyle = HEBubbleViewSelectionStyleDefault
     
     [self.view addSubview:bubbleView];
     [bubbleView release];
@@ -46,7 +47,6 @@ Create and configure the BubbleView
 ```objc
 -(BOOL)canBecomeFirstResponder
 {
-    NSLog(@"Asking %@ if it can become first responder",[self class]);
     return YES;
 }
 ```
@@ -66,4 +66,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
  limitations under the License. 
 
-Attribution is not required, but appreciated.
+Attribution is appreciated.

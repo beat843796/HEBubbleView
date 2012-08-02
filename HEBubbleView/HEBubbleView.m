@@ -447,7 +447,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     if ([bubbleDelegate respondsToSelector:@selector(bubbleView:didHideMenuForButtbleItemAtIndex:)]) {
-        [bubbleDelegate bubbleView:self didHideMenuForButtbleItemAtIndex:activeBubble.index];
+        [bubbleDelegate bubbleView:self didHideMenuForBubbleItemAtIndex:activeBubble.index];
     }
     
     activeBubble = nil;
