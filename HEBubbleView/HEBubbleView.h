@@ -32,6 +32,12 @@
 
 @end
 
+typedef enum
+{
+    HEBubbleViewSelectionStyleDefault,
+    HEBubbleViewSelectionStyleNone
+}HEBubbleViewSelectionStyle;
+
 @interface HEBubbleView : UIScrollView <HEBubbleViewItemDelegate>
 {
     
@@ -50,6 +56,8 @@
    
     HEBubbleViewItem *activeBubble;                     // pointer to the currently selected bubble
     
+    HEBubbleViewSelectionStyle selectionStyle;          // Defaults to HEBubbleViewSelectionStyleDefault
+    
 }
 
 @property (nonatomic, assign) id<HEBubbleViewDelegate> bubbleDelegate;
@@ -60,6 +68,8 @@
 
 @property (nonatomic, assign) HEBubbleViewItem *activeBubble;
 @property (nonatomic, readonly) NSMutableArray *reuseQueue;
+
+@property (nonatomic, assign) HEBubbleViewSelectionStyle selectionStyle;
 
 /*
  Returns an unused item from the queue if there is any

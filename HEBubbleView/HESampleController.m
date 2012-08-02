@@ -66,6 +66,8 @@
     bubbleView.bubbleDataSource = self;
     bubbleView.bubbleDelegate = self;
     
+    bubbleView.selectionStyle = HEBubbleViewSelectionStyleDefault;
+    
     [self.view addSubview:bubbleView];
     [bubbleView release];
     
@@ -241,7 +243,6 @@
 -(BOOL)bubbleView:(HEBubbleView *)bubbleView shouldShowMenuForBubbleItemAtIndex:(NSInteger)index
 {
     NSLog(@"telling delegate to show menu");
-    
     return YES;
 }
 

@@ -13,6 +13,7 @@
 
 -(void)selectedBubbleItem:(HEBubbleViewItem *)item; 
 
+
 @end
 
 @interface HEBubbleViewItem : UIView
@@ -31,6 +32,8 @@
     UIColor *unselectedTextColor;
     UIColor *selectedTextColor;
     
+    BOOL highlightTouches;
+    
 //////////// PRIVATE STUFF /////////////////
     
     @private
@@ -45,6 +48,7 @@
 @property (nonatomic, assign) id<HEBubbleViewItemDelegate> delegate;
 @property (nonatomic, readonly) UILabel *textLabel;
 @property (nonatomic, retain) NSMutableDictionary *userInfo;
+@property (nonatomic, assign) BOOL highlightTouches;
 
 @property (nonatomic, retain) UIColor *unselectedBGColor;
 @property (nonatomic, retain) UIColor *selectedBGColor;

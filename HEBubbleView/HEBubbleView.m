@@ -35,6 +35,8 @@
 @synthesize reuseQueue;
 @synthesize activeBubble;
 
+@synthesize selectionStyle;
+
 #pragma mark - Memory Management
 
 // memory management
@@ -54,6 +56,11 @@
 
 #pragma mark - Initialization
 
+-(id)init
+{
+    return [self initWithFrame:CGRectZero];
+}
+
 // initializiation
 -(id)initWithFrame:(CGRect)frame
 {
@@ -67,6 +74,9 @@
         items = [[NSMutableArray alloc] init];
         reuseQueue = [[NSMutableArray alloc] init];
  
+        
+        selectionStyle = HEBubbleViewSelectionStyleDefault;
+        
     }
     
     return  self;
@@ -286,14 +296,40 @@
         HEBubbleViewItem *bubble = [items objectAtIndex:i];
         [bubble setSelected:NO animated:animated];
         
-        CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(self.frame.size.width, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
+        if (selectionStyle == HEBubbleViewSelectionStyleNone) {
+            bubble.highlightTouches = NO;
+        }
+        
+        CGFloat bubbleWidth = [bubble.textLabel.text sizeWithFont:bubble.textLabel.font constrainedToSize:CGSizeMake(100000, itemHeight)].width+2*bubble.bubbleTextLabelPadding;
         
         
-        if ((nextBubbleX + bubbleWidth) > self.frame.size.width-itemPadding) {
+        // if bubble width is bigger than frame width cut it off...
+        
+        if (bubbleWidth >= self.frame.size.width-2*itemPadding) {
+            bubbleWidth = self.frame.size.width-2*itemPadding;
+            nextBubbleX = itemPadding;
+            
+            if (lineNumber == 1) {
+                nextBubbleY += 0;
+            }else {
+               nextBubbleY += (itemHeight+itemPadding); 
+            }
+            
+            
+            lineNumber++;
+            
+        }else if ((nextBubbleX + bubbleWidth) > self.frame.size.width-2*itemPadding) {
             lineNumber++;
             
             nextBubbleX = itemPadding;
-            nextBubbleY += (itemHeight+itemPadding);
+            
+            
+            if (lineNumber == 1) {
+                nextBubbleY += 0;
+            }else {
+                nextBubbleY += (itemHeight+itemPadding);
+            }
+            
             
         }
         
@@ -343,7 +379,18 @@
     }
     
     
-    [item setSelected:YES animated:YES];
+    switch (selectionStyle) {
+        case HEBubbleViewSelectionStyleDefault:
+            [item setSelected:YES animated:YES];
+            break;
+        case HEBubbleViewSelectionStyleNone:
+            [item setSelected:NO animated:NO];
+            break;
+        default:
+            break;
+    }
+    
+    
     
     if ([bubbleDelegate respondsToSelector:@selector(bubbleView:didSelectBubbleItemAtIndex:)]) {
         [bubbleDelegate bubbleView:self didSelectBubbleItemAtIndex:item.index];

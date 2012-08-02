@@ -53,6 +53,8 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 @synthesize textLabel;
 @synthesize bubbleTextLabelPadding;
 
+@synthesize highlightTouches;
+
 //////////////// Memory management //////////////////////
 
 -(void)dealloc
@@ -103,6 +105,8 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
         self.selectedTextColor = DEFAULT_SELECTED_TEXT_COLOR;
         self.unselectedBorderColor = DEFAUL_BORDER_COLOR;
         self.selectedBorderColor = DEFAUL_BORDER_COLOR;
+        
+        self.highlightTouches = YES;
         
         
     }
@@ -197,6 +201,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     self.delegate = nil;
     isSelected = NO;
     self.userInfo = nil;
+    
     [CATransaction begin];
     [self.layer removeAllAnimations];
     [CATransaction commit];
@@ -211,6 +216,8 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     self.selectedBorderColor = DEFAUL_BORDER_COLOR;
     
 
+    self.highlightTouches = YES;
+    
 }
 
 //////////////// TOCUH HANDLING ///////////////////////
@@ -224,7 +231,10 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     
     touchBegan = touchPoint;
     
-    [self setSelected:YES animated:NO];
+    if (highlightTouches) {
+        [self setSelected:YES animated:NO];
+    }
+    
     
     
 }
