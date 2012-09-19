@@ -11,18 +11,21 @@
 
 /////////////////// Constants //////////////////////
 
-#define DEFAULT_BG_COLOR UIColorFromRGB(222,231,248,255)
-#define DEFAULT_SELECTED_BG_COLOR UIColorFromRGB(89,137,236,255)
+#define DEFAULT_BG_COLOR UIColorFromRGB(0,140,180,255)
+#define DEFAULT_SELECTED_BG_COLOR UIColorFromRGB(0,140,180,255)
 
-#define DEFAULT_TEXT_COLOR UIColorFromRGB(0,0,0,255)
+#define DEFAULT_TEXT_COLOR UIColorFromRGB(255,255,255,255)
 #define DEFAULT_SELECTED_TEXT_COLOR UIColorFromRGB(255,255,255,255)
 
-#define DEFAUL_BORDER_COLOR UIColorFromRGB(109,149,224,255)
-#define DEFAULT_SELECTED_BORDER_COLOR UIColorFromRGB(109,149,224,255)
+#define DEFAULT_BORDER_COLOR UIColorFromRGB(0,140,180,255)
+#define DEFAULT_SELECTED_BORDER_COLOR UIColorFromRGB(255,255,255,255)
+
+#define DEFAULT_BORDER_WIDTH 2.0;
+#define DEFAULT_FONT [UIFont fontWithName:@"Helvetica-Bold" size:14]
 
 #define ITEM_TEXTLABELPADDING_LEFT_AND_RIGHT 10.0;
 
-UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSInteger alpha) {
+static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSInteger alpha) {
     return [UIColor colorWithRed:((float)red)/255.0
                            green:((float)green)/255.0
                             blue:((float)blue)/255.0
@@ -89,6 +92,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
         reuseIdentifier = [reuseIdentifierIN retain];
         
         textLabel = [[UILabel alloc] initWithFrame:self.bounds];
+        textLabel.font = DEFAULT_FONT;
         
         self.textLabel.backgroundColor = [UIColor clearColor];
         
@@ -103,8 +107,8 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
         self.selectedBGColor = DEFAULT_SELECTED_BG_COLOR;
         self.unselectedTextColor = DEFAULT_TEXT_COLOR;
         self.selectedTextColor = DEFAULT_SELECTED_TEXT_COLOR;
-        self.unselectedBorderColor = DEFAUL_BORDER_COLOR;
-        self.selectedBorderColor = DEFAUL_BORDER_COLOR;
+        self.unselectedBorderColor = DEFAULT_BORDER_COLOR;
+        self.selectedBorderColor = DEFAULT_SELECTED_BORDER_COLOR;
         
         self.highlightTouches = YES;
         
@@ -134,7 +138,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = self.bounds.size.height/2;
-    self.layer.borderWidth = 1.0;
+    self.layer.borderWidth = DEFAULT_BORDER_WIDTH;
     self.layer.borderColor = [unselectedBorderColor CGColor];
     
     [super layoutSubviews];
@@ -150,11 +154,13 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
             [UIView setAnimationBeginsFromCurrentState:YES];
             self.backgroundColor = selectedBGColor;
             self.textLabel.textColor = selectedTextColor;
+            self.layer.borderColor = selectedBorderColor.CGColor;
             [UIView commitAnimations];
             
         }else {
             self.backgroundColor = selectedBGColor;
             self.textLabel.textColor = selectedTextColor;
+            self.layer.borderColor = selectedBorderColor.CGColor;
         }
         
         
@@ -166,11 +172,13 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
             [UIView setAnimationBeginsFromCurrentState:YES];
             self.backgroundColor = unselectedBGColor;
             self.textLabel.textColor = unselectedTextColor;
+            self.layer.borderColor = unselectedBorderColor.CGColor;
             [UIView commitAnimations];
             
         }else {
             self.backgroundColor = unselectedBGColor;
             self.textLabel.textColor = unselectedTextColor;
+            self.layer.borderColor = unselectedBorderColor.CGColor;
         }
         
         
@@ -191,7 +199,7 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
 
 /*
  Resetting all values for reuse
-*/
+ */
 
 -(void)prepareItemForReuse
 {
@@ -212,15 +220,15 @@ UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, NSIntege
     self.selectedBGColor = DEFAULT_SELECTED_BG_COLOR;
     self.unselectedTextColor = DEFAULT_TEXT_COLOR;
     self.selectedTextColor = DEFAULT_SELECTED_TEXT_COLOR;
-    self.unselectedBorderColor = DEFAUL_BORDER_COLOR;
-    self.selectedBorderColor = DEFAUL_BORDER_COLOR;
+    self.unselectedBorderColor = DEFAULT_BORDER_COLOR;
+    self.selectedBorderColor = DEFAULT_SELECTED_BORDER_COLOR;
     
-
+    
     self.highlightTouches = YES;
     
 }
 
-//////////////// TOCUH HANDLING ///////////////////////
+//////////////// TOUCH HANDLING ///////////////////////
 #pragma mark - Touch Handling
 
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
