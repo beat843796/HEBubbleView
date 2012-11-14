@@ -43,8 +43,8 @@ typedef enum
     
     @private
     
-    id<HEBubbleViewDelegate> bubbleDelegate;            // bubble view delegate
-    id<HEBubbleViewDataSource> bubbleDataSource;        // bubble view datasource
+    id<HEBubbleViewDelegate> __weak bubbleDelegate;            // bubble view delegate
+    id<HEBubbleViewDataSource> __weak bubbleDataSource;        // bubble view datasource
     
     CGFloat itemPadding;                                // space between items (vertical)
     CGFloat itemHeight;                                 // default item heigth
@@ -54,19 +54,19 @@ typedef enum
     
     UIMenuController *menu;                             // Menu Controller
    
-    HEBubbleViewItem *activeBubble;                     // pointer to the currently selected bubble
+    HEBubbleViewItem *__weak activeBubble;                     // pointer to the currently selected bubble
     
     HEBubbleViewSelectionStyle selectionStyle;          // Defaults to HEBubbleViewSelectionStyleDefault
     
 }
 
-@property (nonatomic, assign) id<HEBubbleViewDelegate> bubbleDelegate;
-@property (nonatomic, assign) id<HEBubbleViewDataSource> bubbleDataSource;
+@property (nonatomic, weak) id<HEBubbleViewDelegate> bubbleDelegate;
+@property (nonatomic, weak) id<HEBubbleViewDataSource> bubbleDataSource;
 
 @property (nonatomic, assign) CGFloat itemPadding;
 @property (nonatomic, assign) CGFloat itemHeight;
 
-@property (nonatomic, assign) HEBubbleViewItem *activeBubble;
+@property (nonatomic, weak) HEBubbleViewItem *activeBubble;
 @property (nonatomic, readonly) NSMutableArray *reuseQueue;
 
 @property (nonatomic, assign) HEBubbleViewSelectionStyle selectionStyle;

@@ -48,10 +48,7 @@
     self.bubbleDataSource = nil;
     self.bubbleDelegate = nil;
     
-    [reuseQueue release];
-    [items release];
     
-    [super dealloc];
 }
 
 #pragma mark - Initialization
@@ -95,7 +92,7 @@
         
         if ([item.reuseIdentifier isEqualToString:reuseIdentifier]) {
 
-            reuseItem = [item retain];
+            reuseItem = item;
             break;
             
         }
@@ -109,7 +106,7 @@
     
     [reuseItem prepareItemForReuse];
     
-    return [reuseItem autorelease];
+    return reuseItem;
     
 }
 
@@ -169,9 +166,9 @@
         return;
     }
     
-    HEBubbleViewItem *item = [items objectAtIndex:index];
+    HEBubbleViewItem *item = items[index];
 
-    [reuseQueue addObject:[items objectAtIndex:index]];
+    [reuseQueue addObject:items[index]];
     [items removeObject:item];
     
     
@@ -215,7 +212,7 @@
         bubble.alpha = 0.0;
 
         for (int i = 0; i < [items count]; i++) {
-            HEBubbleViewItem *item = [items objectAtIndex:i];
+            HEBubbleViewItem *item = items[i];
             item.index = i;
         }
 
@@ -293,7 +290,7 @@
     
     for (int i = start; i < end; i++) {
 
-        HEBubbleViewItem *bubble = [items objectAtIndex:i];
+        HEBubbleViewItem *bubble = items[i];
         [bubble setSelected:NO animated:animated];
         
         if (selectionStyle == HEBubbleViewSelectionStyleNone) {

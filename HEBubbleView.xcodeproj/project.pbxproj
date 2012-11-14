@@ -257,6 +257,7 @@
 		61CF703A15B80F5E004E0D5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HEBubbleView/HEBubbleView-Prefix.pch";
 				INFOPLIST_FILE = "HEBubbleView/HEBubbleView-Info.plist";
@@ -268,6 +269,7 @@
 		61CF703B15B80F5E004E0D5C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "HEBubbleView/HEBubbleView-Prefix.pch";
 				INFOPLIST_FILE = "HEBubbleView/HEBubbleView-Info.plist";

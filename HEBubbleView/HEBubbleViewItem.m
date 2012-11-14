@@ -62,22 +62,11 @@ static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, N
 
 -(void)dealloc
 {
-    [reuseIdentifier release];
-    reuseIdentifier = nil;
     delegate = nil;
-    [userInfo release];
-    userInfo = nil;
     
-    [unselectedBGColor release];
-    [selectedBGColor release];
     
-    [unselectedTextColor release];
-    [selectedTextColor release];
     
-    [unselectedBorderColor release];
-    [selectedBorderColor release];
     
-    [super dealloc];
 }
 
 //////////////////// Initialization //////////////////////
@@ -89,7 +78,7 @@ static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, N
     self = [super initWithFrame:CGRectZero];
     if (self) {
         
-        reuseIdentifier = [reuseIdentifierIN retain];
+        reuseIdentifier = reuseIdentifierIN;
         
         textLabel = [[UILabel alloc] initWithFrame:self.bounds];
         textLabel.font = DEFAULT_FONT;
@@ -99,7 +88,6 @@ static UIColor* UIColorFromRGB(NSInteger red, NSInteger green, NSInteger blue, N
         self.backgroundColor = DEFAULT_BG_COLOR;
         
         [self addSubview:textLabel];
-        [textLabel release];
         
         self.bubbleTextLabelPadding = ITEM_TEXTLABELPADDING_LEFT_AND_RIGHT;
         

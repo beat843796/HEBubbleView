@@ -1,6 +1,6 @@
 ## HEBubbleView
 Easy to use iOS UI Class for providing a bubble list similar to the contact bubbles in the
-iOS and OSX Mail App. Supports editing, deletion, insert, insertAtIndex, Custom UIMenuControllerItems for a given index and animation support. Working with iPad and iPhone. Currently it is non-ARC.
+iOS and OSX Mail App. Supports editing, deletion, insert, insertAtIndex, Custom UIMenuControllerItems for a given index and animation support. Working with iPad and iPhone, supports ARC. Modern Obj-C Syntax is used.
 
 
 ## Usage

@@ -19,7 +19,7 @@
 @interface HEBubbleViewItem : UIView
 {
 
-    id<HEBubbleViewItemDelegate> delegate;          // Bubble Item delegate
+    id<HEBubbleViewItemDelegate> __weak delegate;          // Bubble Item delegate
     UILabel *textLabel;                             // textlabel that displays the bubble string
     NSMutableDictionary *userInfo;                  // dictionary for additional data
     
@@ -45,19 +45,19 @@
     CGFloat bubbleTextLabelPadding;
 }
 
-@property (nonatomic, assign) id<HEBubbleViewItemDelegate> delegate;
+@property (nonatomic, weak) id<HEBubbleViewItemDelegate> delegate;
 @property (nonatomic, readonly) UILabel *textLabel;
-@property (nonatomic, retain) NSMutableDictionary *userInfo;
+@property (nonatomic, strong) NSMutableDictionary *userInfo;
 @property (nonatomic, assign) BOOL highlightTouches;
 
-@property (nonatomic, retain) UIColor *unselectedBGColor;
-@property (nonatomic, retain) UIColor *selectedBGColor;
+@property (nonatomic, strong) UIColor *unselectedBGColor;
+@property (nonatomic, strong) UIColor *selectedBGColor;
 
-@property (nonatomic, retain) UIColor *unselectedBorderColor;
-@property (nonatomic, retain) UIColor *selectedBorderColor;
+@property (nonatomic, strong) UIColor *unselectedBorderColor;
+@property (nonatomic, strong) UIColor *selectedBorderColor;
 
-@property (nonatomic, retain) UIColor *unselectedTextColor;
-@property (nonatomic, retain) UIColor *selectedTextColor;
+@property (nonatomic, strong) UIColor *unselectedTextColor;
+@property (nonatomic, strong) UIColor *selectedTextColor;
 
 @property (nonatomic, readonly) BOOL isSelected;
 @property (nonatomic, readonly) NSString *reuseIdentifier;

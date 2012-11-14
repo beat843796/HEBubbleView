@@ -25,11 +25,6 @@
 //////////////////////////////// Memory Management /////////////////////////////
 #pragma mark - Memory Management
 
--(void)dealloc
-{
-    [data release];
-    [super dealloc];
-}
 
 //////////////////////////////// Initializiation /////////////////////////////
 #pragma mark - Initialization
@@ -69,17 +64,14 @@
     bubbleView.selectionStyle = HEBubbleViewSelectionStyleDefault;
     
     [self.view addSubview:bubbleView];
-    [bubbleView release];
     
     
     // configure bar buttons
     UIBarButtonItem *refresh = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:bubbleView action:@selector(reloadData)];
     self.navigationItem.rightBarButtonItem = refresh;
-    [refresh release];
     
     UIBarButtonItem *add = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addDummyItem)];
     self.navigationItem.leftBarButtonItem = add;
-    [add release];
 
 }
 
@@ -216,13 +208,13 @@
     HEBubbleViewItem *item = [bubbleView dequeueItemUsingReuseIdentifier:itemIdentifier];
     
     if (item == nil) {
-        item = [[[HEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier] autorelease];
+        item = [[HEBubbleViewItem alloc] initWithReuseIdentifier:itemIdentifier];
          NSLog(@"Created a new bubble");
     }else {
         NSLog(@"Used a bubble from the queue");
     }
     
-    item.textLabel.text = [data objectAtIndex:index];
+    item.textLabel.text = data[index];
     
     return item;
 }
@@ -278,11 +270,8 @@
     UIMenuItem *item1 = [[UIMenuItem alloc] initWithTitle:@"Insert Left" action:@selector(inserLeft:)];
     UIMenuItem *item2 = [[UIMenuItem alloc] initWithTitle:@"Insert Right" action:@selector(insertRight:)];
     
-    items = [NSArray arrayWithObjects:item1,item0,item2, nil];
+    items = @[item1,item0,item2];
     
-    [item1 release];
-    [item0 release];
-    [item2 release];
     
     
     

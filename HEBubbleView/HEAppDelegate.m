@@ -14,25 +14,15 @@
 @synthesize bubbleController;
 @synthesize nav;
 
-- (void)dealloc
-{
-    
-    
-    [nav release];
-    
-    [_window release];
-    [super dealloc];
-}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     bubbleController = [[HESampleController alloc] init];
     nav = [[UINavigationController alloc] initWithRootViewController:bubbleController];
-    [bubbleController release];
     
     bubbleController.title = @"Bubble View Sample";
 
-    self.window = [[[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]] autorelease];
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [self.window addSubview:nav.view];
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
